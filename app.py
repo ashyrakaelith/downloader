@@ -39,7 +39,7 @@ INDEX_HTML = '''
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>YHUN73R DOWNLOAD MANAGER</title>
+  <title>HUN73R DOWNLOAD MANAGER</title>
   <style>
     :root {
       --primary: #ff0000;
