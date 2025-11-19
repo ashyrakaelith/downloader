@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Media Converter (safe demo)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="card">
+    <h1>Media Converter (safe demo)</h1>
+
+    <p class="muted">
+      Paste a <strong>direct</strong> media URL (ends with .mp4 or .mp3), or upload a file.
+      This app will convert and stream the result directly to your browser.
+      <br><strong>Note:</strong> This does not support downloading from YouTube watch links.
+    </p>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for m in messages %}
+            <li>{{ m }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form action="/convert" method="post" enctype="multipart/form-data" id="convertForm">
+      <label>Direct media URL (optional)
+        <input type="url" name="url" placeholder="https://example.com/video.mp4">
+      </label>
+
+      <div class="or">— OR —</div>
+
+      <label>Upload file (optional)
+        <input type="file" name="file" accept="audio/*,video/*">
+      </label>
+
+      <label>Output format
+        <select name="type" id="type">
+          <option value="mp4">MP4 (video)</option>
+          <option value="mp3">MP3 (audio)</option>
+        </select>
+      </label>
+
+      <label id="qualityLabel">Video quality (mp4 only)
+        <select name="quality" id="quality">
+          <option value="">Keep source</option>
+          <option value="360">360p</option>
+          <option value="720">720p</option>
+          <option value="1080">1080p</option>
+        </select>
+      </label>
+
+      <button type="submit">Convert & Download</button>
+    </form>
+
+    <footer class="muted small">
+      Tip: For conversion, <strong>install ffmpeg</strong> on your machine. Without ffmpeg the app will only stream the source file if formats match.
+    </footer>
+  </main>
+
+  <script>
+    // simple UI: hide quality when mp3 selected
+    const typeSelect = document.getElementById('type');
+    const qualityLabel = document.getElementById('qualityLabel');
+    function toggleQuality() {
+      if (typeSelect.value === 'mp3') {
+        qualityLabel.style.display = 'none';
+      } else {
+        qualityLabel.style.display = '';
+      }
+    }
+    typeSelect.addEventListener('change', toggleQuality);
+    toggleQuality();
+  </script>
+</body>
+</html>
